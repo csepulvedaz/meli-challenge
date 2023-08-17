@@ -5,6 +5,5 @@ import (
 )
 
 func main() {
-	// Start server
 	core.StartServer()
 }
