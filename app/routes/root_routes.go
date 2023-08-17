@@ -1,19 +1,24 @@
 package routes
 
 import (
-	"log"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
 )
 
+func getEnv() string {
+	env := os.Getenv("ENV")
+	if env == "" {
+		env = "local"
+	}
+	return env
+}
+
 // healthCheck func for api health check
 func healthCheck(c *fiber.Ctx) error {
-	env := os.Getenv("ENV")
-	log.Printf("ENV: %v", env)
 	return c.JSON(fiber.Map{
 		"status": "OK",
-		"env":    env,
+		"env":    getEnv(),
 	})
 }
 

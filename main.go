@@ -8,9 +8,6 @@ import (
 )
 
 func main() {
-	// Load environment variables
-	config.LoadEnv()
-
 	// Create new fiber app
 	app := fiber.New(config.FiberConfig())
 
