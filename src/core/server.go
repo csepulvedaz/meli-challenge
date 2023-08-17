@@ -1,9 +1,10 @@
 package core
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 
 	"github.com/csepulvedaz/meli-challenge/src/middlewares"
 	"github.com/csepulvedaz/meli-challenge/src/routes"
@@ -14,7 +15,7 @@ import (
 // See: https://docs.gofiber.io/api/fiber/
 func fiberConfig() fiber.Config {
 	return fiber.Config{
-		AppName: "Top Secret Api",
+		AppName: fmt.Sprintf("Top Secret Api (%s)", utils.GetEnv()),
 	}
 }
 
@@ -30,7 +31,8 @@ func StartServer() {
 	routes.RootRoutes(app)
 
 	// Run server
-	if err := app.Listen(utils.GetPort()); err != nil {
-		log.Printf("Oops... Server is not running! Reason: %v", err)
+	port := utils.GetPort()
+	if err := app.Listen(port); err != nil {
+		log.Fatalf("Oops... Server is not running! Reason: %v", err)
 	}
 }
