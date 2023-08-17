@@ -22,8 +22,8 @@ func healthCheck(c *fiber.Ctx) error {
 	})
 }
 
-// RootRoutes func for describe group of routes.
-func RootRoutes(a *fiber.App) {
+// rootRoutes func for describe group of routes.
+func rootRoutes(a *fiber.App) {
 	route := a.Group("/")
 	route.Get("/", healthCheck)
 }
