@@ -1,30 +1,25 @@
 package main
 
 import (
-	"os"
-
 	"github.com/gofiber/fiber/v2"
+
+	"github.com/csepulvedaz/meli-challenge/core/config"
+	"github.com/csepulvedaz/meli-challenge/core/middleware"
 )
 
-func getPort() string {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = ":3000"
-	} else {
-		port = ":" + port
-	}
-
-	return port
-}
-
 func main() {
-	app := fiber.New()
+	// Load environment variables
+	config.LoadEnv()
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON(fiber.Map{
-			"message": "Hello, World!",
-		})
-	})
+	// Create new fiber app
+	app := fiber.New(config.FiberConfig())
 
-	app.Listen(getPort())
+	// Middlewares
+	middleware.FiberMiddleware(app)
+
+	// Routes
+	config.SetupRoutes(app)
+
+	// Start server
+	config.StartServer(app)
 }
