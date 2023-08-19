@@ -29,6 +29,7 @@ func StartServer() {
 
 	// Registry routes
 	routes.RootRoutes(app)
+	routes.SecretRoutes(app)
 
 	// Run server
 	port := utils.GetPort()

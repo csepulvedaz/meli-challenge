@@ -8,6 +8,5 @@ import (
 
 // RootRoutes func for describe group of routes.
 func RootRoutes(a *fiber.App) {
-	route := a.Group("/")
-	route.Get("/", controllers.HealthCheck)
+	a.Get("/", controllers.GetHealthCheck)
 }
