@@ -7,6 +7,11 @@ type Satellite struct {
 }
 
 type Position struct {
-	X float32
-	Y float32
+	X float32 `json:"x"`
+	Y float32 `json:"y"`
+}
+
+type Secret struct {
+	Position Position `json:"position"`
+	Message  string   `json:"message"`
 }

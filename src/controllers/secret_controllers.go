@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/csepulvedaz/meli-challenge/src/models"
-	"github.com/csepulvedaz/meli-challenge/src/responses"
+	"github.com/csepulvedaz/meli-challenge/src/services"
 	"github.com/csepulvedaz/meli-challenge/src/utils"
 )
 
@@ -15,32 +15,23 @@ func PostTopSecret(c *fiber.Ctx) error {
 		Satellites []models.Satellite `json:"satellites"`
 	}
 
+	// Parse the body into the data struct
 	if err := c.BodyParser(&data); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Se necesitan 3 satélites",
+			"error": err.Error(),
 		})
 	}
 
-	// Validar que se hayan recibido exactamente tres satélites
+	// Check if the satellites are 3
 	if len(data.Satellites) != 3 {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"error": "Se necesitan 3 satélites",
-		})
+		return c.Status(fiber.StatusNotFound).JSON(utils.FormatSecretError("Se necesitan 3 satélites"))
 	}
 
-	satellites := data.Satellites
-	kenobi, skywalker, sato := satellites[0], satellites[1], satellites[2]
-
-	message := utils.GetMessage(kenobi.Message, skywalker.Message, sato.Message)
-	x, y := utils.GetLocation(kenobi.Distance, skywalker.Distance, sato.Distance)
-
-	response := responses.SecretResponse{
-		Position: models.Position{
-			X: utils.RoundFloat(x, 1),
-			Y: utils.RoundFloat(y, 1),
-		},
-		Message: message,
+	// Get the secret and check if there is an error
+	secret, error := services.GetSecret(data.Satellites)
+	if error != nil {
+		return c.Status(fiber.StatusNotFound).JSON(error)
 	}
 
-	return c.Status(http.StatusOK).JSON(response)
+	return c.Status(http.StatusOK).JSON(secret)
 }

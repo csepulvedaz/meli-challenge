@@ -3,7 +3,10 @@ package utils
 import (
 	"strings"
 
+	"github.com/gofiber/fiber/v2"
+
 	consts "github.com/csepulvedaz/meli-challenge/src/constants"
+	"github.com/csepulvedaz/meli-challenge/src/models"
 )
 
 // GetLocation for getting the location of the emitter
@@ -27,16 +30,6 @@ func GetLocation(distances ...float32) (x, y float32) {
 	x = (C*E - F*B) / (E*A - B*D)
 	y = (C*D - A*F) / (B*D - A*E)
 
-	// Get the distance from the calculated emitter to the satellites
-	d1 := distance(x, y, x1, y1)
-	d2 := distance(x, y, x2, y2)
-	d3 := distance(x, y, x3, y3)
-
-	// Return 0, 0 if the intersection is not valid
-	if RoundFloat(d1, 1) > RoundFloat(r1, 1) || RoundFloat(d2, 1) > RoundFloat(r2, 1) || RoundFloat(d3, 1) > RoundFloat(r3, 1) {
-		return 0, 0
-	}
-
 	return x, y
 }
 
@@ -59,4 +52,18 @@ func GetMessage(messages ...[]string) (msg string) {
 	}
 
 	return strings.Join(merged, " ")
+}
+
+func FormatSecret(x, y float32, message string) models.Secret {
+	return models.Secret{
+		Position: models.Position{
+			X: x,
+			Y: y,
+		},
+		Message: message,
+	}
+}
+
+func FormatSecretError(msg string) error {
+	return fiber.NewError(fiber.StatusNotFound, msg)
 }
