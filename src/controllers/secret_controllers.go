@@ -17,14 +17,14 @@ func PostTopSecret(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(&data); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Bad Request",
+			"error": "Se necesitan 3 satélites",
 		})
 	}
 
 	// Validar que se hayan recibido exactamente tres satélites
 	if len(data.Satellites) != 3 {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Bad Request",
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"error": "Se necesitan 3 satélites",
 		})
 	}
 
@@ -36,8 +36,8 @@ func PostTopSecret(c *fiber.Ctx) error {
 
 	response := responses.SecretResponse{
 		Position: models.Position{
-			X: utils.RoundFloat(x, 2),
-			Y: utils.RoundFloat(y, 2),
+			X: utils.RoundFloat(x, 1),
+			Y: utils.RoundFloat(y, 1),
 		},
 		Message: message,
 	}

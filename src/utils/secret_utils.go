@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"log"
 	"strings"
 
 	consts "github.com/csepulvedaz/meli-challenge/src/constants"
@@ -33,12 +32,8 @@ func GetLocation(distances ...float32) (x, y float32) {
 	d2 := distance(x, y, x2, y2)
 	d3 := distance(x, y, x3, y3)
 
-	log.Print(d1, r1)
-	log.Print(d2, r2)
-	log.Print(d3, r3)
-
 	// Return 0, 0 if the intersection is not valid
-	if d1 > r1 || d2 > r2 || d3 > r3 {
+	if RoundFloat(d1, 1) > RoundFloat(r1, 1) || RoundFloat(d2, 1) > RoundFloat(r2, 1) || RoundFloat(d3, 1) > RoundFloat(r3, 1) {
 		return 0, 0
 	}
 
