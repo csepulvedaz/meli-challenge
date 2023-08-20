@@ -1,16 +1,16 @@
 package controllers
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"os"
 
-	"github.com/csepulvedaz/meli-challenge/src/utils"
+	"github.com/gofiber/fiber/v2"
 )
 
 // GetHealthCheck func for api health check
 func GetHealthCheck(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"status":  "OK",
-		"env":     utils.GetEnv(),
+		"env":     os.Getenv("ENV"),
 		"message": "Pong!",
 	})
 }
