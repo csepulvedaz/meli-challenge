@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"slices"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -54,6 +55,7 @@ func GetMessage(messages ...[]string) (msg string) {
 	return strings.Join(merged, " ")
 }
 
+// FormatSecret for formatting the secret
 func FormatSecret(x, y float32, message string) models.Secret {
 	return models.Secret{
 		Position: models.Position{
@@ -64,6 +66,17 @@ func FormatSecret(x, y float32, message string) models.Secret {
 	}
 }
 
-func FormatSecretError(msg string) error {
+// FormatError for formatting the error
+func FormatError(msg string) error {
 	return fiber.NewError(fiber.StatusNotFound, msg)
+}
+
+// FindSatelliteByName for finding a satellite in a slice by name
+func FindSatelliteByName(slice []models.Satellite, name string) models.Satellite {
+	idx := slices.IndexFunc(slice, func(s models.Satellite) bool { return s.Name == name })
+	if idx == -1 {
+		return models.Satellite{}
+	}
+	satellite := slice[idx]
+	return satellite
 }

@@ -14,6 +14,7 @@ type RedisClient struct {
 	store *redis.Storage
 }
 
+// GetRedisClient for getting the only instance of the redis client
 func GetRedisClient() *RedisClient {
 	if redisClient == nil {
 		redisClient = &RedisClient{}
@@ -22,6 +23,7 @@ func GetRedisClient() *RedisClient {
 	return redisClient
 }
 
+// Connect func for connect to redis
 func (rc *RedisClient) Connect() {
 	port, err := strconv.Atoi(os.Getenv("REDIS_PORT"))
 	if err != nil {
