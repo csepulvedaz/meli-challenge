@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"slices"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -73,10 +72,12 @@ func FormatError(msg string) error {
 
 // FindSatelliteByName for finding a satellite in a slice by name
 func FindSatelliteByName(slice []models.Satellite, name string) models.Satellite {
-	idx := slices.IndexFunc(slice, func(s models.Satellite) bool { return s.Name == name })
-	if idx == -1 {
-		return models.Satellite{}
+	var satellite models.Satellite
+	for _, element := range slice {
+		if element.Name == name {
+			satellite = element
+		}
 	}
-	satellite := slice[idx]
+
 	return satellite
 }
