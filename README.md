@@ -22,6 +22,14 @@ Golang RESTful API using Fiber to solve "Operación Fuego de Quasar" problem
    air
    ```
 
+## Testing
+
+1. Run tests:
+
+   ```bash
+   go test ./...
+   ```
+
 ## Project structure
 
 ```bash
