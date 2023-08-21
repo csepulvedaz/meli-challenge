@@ -11,8 +11,8 @@ import (
 	"github.com/csepulvedaz/meli-challenge/src/utils"
 )
 
-// PostTopSecret for getting the secret from the satellites
-func PostTopSecret(c *fiber.Ctx) error {
+// GenerateTopSecret for getting the secret from the satellites
+func GenerateTopSecret(c *fiber.Ctx) error {
 	var data struct {
 		Satellites []models.Satellite `json:"satellites"`
 	}
@@ -36,8 +36,8 @@ func PostTopSecret(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(secret)
 }
 
-// GetTopSecretSplit for getting the secret from the split satellites
-func GetTopSecretSplit(c *fiber.Ctx) error {
+// GenerateSplitTopSecret for getting the secret from the split satellites
+func GenerateSplitTopSecret(c *fiber.Ctx) error {
 	// Get the secret and check if there is an error
 	secret, err := services.GetSecretSplit()
 	if err != nil {
@@ -47,8 +47,8 @@ func GetTopSecretSplit(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(secret)
 }
 
-// PostTopSecretSplit for save split satellites
-func PostTopSecretSplit(c *fiber.Ctx) error {
+// AddSplitSatellite for save split satellite
+func AddSplitSatellite(c *fiber.Ctx) error {
 	var data models.Satellite
 
 	// Get the value of the "satellite_name" parameter
@@ -67,4 +67,19 @@ func PostTopSecretSplit(c *fiber.Ctx) error {
 	}
 
 	return c.Status(http.StatusOK).JSON(data)
+}
+
+// DeleteSplitSatellite for delete split satellite
+func DeleteSplitSatellite(c *fiber.Ctx) error {
+
+	// Get the value of the "satellite_name" parameter
+	satellite_name := c.Params("satellite_name")
+
+	// Delete satellite
+	err := services.DeleteSatellite(satellite_name)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(utils.FormatError(err.Error()))
+	}
+
+	return c.Status(http.StatusOK).JSON(satellite_name)
 }

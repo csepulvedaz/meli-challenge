@@ -72,3 +72,13 @@ func UpsertSatellite(satellite models.Satellite) error {
 	}
 	return nil
 }
+
+// DeleteSatellite for deleting a satellite
+func DeleteSatellite(name string) error {
+	// Delete the satellite
+	err := repositories.DeleteSatellite(name)
+	if err != nil {
+		return err
+	}
+	return nil
+}

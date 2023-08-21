@@ -55,3 +55,16 @@ func UpsertSatellite(name string, satellite string) error {
 
 	return nil
 }
+
+// DeleteSatellite for deleting a satellite
+func DeleteSatellite(name string) error {
+	client := database.GetRedisClient()
+
+	// Delete the satellite in the database
+	err := client.Delete(name)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

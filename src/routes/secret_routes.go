@@ -9,9 +9,10 @@ import (
 // SecretRoutes func for describe group of routes.
 func SecretRoutes(a *fiber.App) {
 	// Top secret
-	a.Post("/topsecret", controllers.PostTopSecret)
+	a.Post("/topsecret", controllers.GenerateTopSecret)
 
 	// Top secret split
-	a.Get("/topsecret_split", controllers.GetTopSecretSplit)
-	a.Post("/topsecret_split/:satellite_name", controllers.PostTopSecretSplit)
+	a.Get("/topsecret_split", controllers.GenerateSplitTopSecret)
+	a.Post("/topsecret_split/:satellite_name", controllers.AddSplitSatellite)
+	a.Delete("/topsecret_split/:satellite_name", controllers.DeleteSplitSatellite)
 }
